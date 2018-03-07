@@ -5,7 +5,9 @@ import android.os.HandlerThread;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.LinearLayout;
 
+import net.idik.lib.slimadapter.FindLastPositionManager;
 import net.idik.lib.slimadapter.SlimAdapter;
 
 import java.util.List;
@@ -79,7 +81,14 @@ public abstract class SlimMoreLoader extends RecyclerView.OnScrollListener {
         super.onScrollStateChanged(recyclerView, newState);
         switch (newState) {
             case RecyclerView.SCROLL_STATE_IDLE:
-                int last = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
+                int last = NO_POSITION;
+
+                if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
+                    last = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
+                } else if (recyclerView.getLayoutManager() instanceof FindLastPositionManager) {
+                    last = ((FindLastPositionManager) recyclerView.getLayoutManager()).getLastVisiblePosition();
+                }
+
                 if (NO_POSITION == last) {
                     break;
                 }
