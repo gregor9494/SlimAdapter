@@ -48,6 +48,10 @@ public class SlimAdapter extends AbstractSlimAdapter {
         }
         return null;
     }
+    
+    public void disableLoadMore(){
+        moreLoader = null;
+    }
 
     private List<?> data;
 
